@@ -6,14 +6,14 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class clientManager implements NetworkManager
+public class ClientManager implements NetworkManager
 {
 	Socket clientSocket;
 	InetAddress IPaddr;
 	int port;
 	PrintWriter out;
 	BufferedReader in;
-	public clientManager(String IP, int port) throws IOException {
+	public ClientManager(String IP, int port) throws IOException {
 		
 		try {
 			IPaddr = InetAddress.getByName(IP);
