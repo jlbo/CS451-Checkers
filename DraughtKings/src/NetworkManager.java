@@ -1,24 +1,11 @@
 
-public class NetworkManager {
+public interface NetworkManager {
 	
-	public void hostGame(){
-		
-	}
 	
-	public void connectToGame(){
-		
-	}
+	public void sendMove(String move);
 	
-	public void sendMove(){
-		
-	}
+	public String readMove();
 	
-	public void readMove(){
-		
-	}
-	
-	public void sendAck(){
-		
-	}
+	public void sendAck();
 	
 }
