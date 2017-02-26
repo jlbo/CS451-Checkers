@@ -17,6 +17,9 @@ public class NetworkManager
 	PrintWriter out;
 	BufferedReader in;
 	
+	
+	// Constructor for Clients - connects to host, sets up input and output
+	// Expected Args: IP address::String, port number::Int
 	public NetworkManager(String IP, int port) throws IOException {
 		
 		try {
@@ -34,6 +37,8 @@ public class NetworkManager
 		    
 	}
 	
+	//Constructor for Host - creates host, connects to client, sets up input and output
+	// Expected Args: port number::Int
 	public NetworkManager(int port) throws IOException
 	{	
 		this.port = port;
@@ -45,7 +50,12 @@ public class NetworkManager
 		  
 	}
 	
-	public void sendMove(String move) {
+	
+	// sendMove: sends the move to socket
+	// Inputs: move::String in format of "move # #"
+	// Outputs: Boolean - if send fails return false otherwise return true
+	public Boolean sendMove(String move) {
+		
 		out.println(move);
 		
 		// get the ok
@@ -53,15 +63,20 @@ public class NetworkManager
 		try {
 			gotit = in.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 		
 		if (!new String("'ok").contentEquals(gotit)) {
 			// something went wrong
+			return false;
 		}
+		
+		return true;
 	}
 	
+	//readMove() - reads Move from socket
+	//Output - String, if success String of type "move # #", if failure empty String
 	public String readMove() {
 		String move = "";
 		try {
@@ -71,10 +86,14 @@ public class NetworkManager
 			e.printStackTrace();
 		}
 		
+		//we got it
+		sendMove("'ok");
 		return move;
 		
 	}
 	
+	//sendAck()
+	//sends move to socket, confirms we got the move
 	public void sendAck() {
 		sendMove("'ok");
 	}
