@@ -87,7 +87,7 @@ public class NetworkManager
 		}
 		
 		//we got it
-		sendMove("'ok");
+		sendAck();
 		return move;
 		
 	}
