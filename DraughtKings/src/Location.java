@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 
 public class Location {
 
@@ -10,6 +12,12 @@ public class Location {
 		_y = y;
 	}
 	
+	public Location (Point p, int tileWidth)
+	{
+		_x = p.x / tileWidth;
+		_y = p.y / tileWidth;
+	}
+	
 	public int getX()
 	{
 		return _x;
@@ -19,4 +27,5 @@ public class Location {
 	{
 		return _y;
 	}
+	
 }

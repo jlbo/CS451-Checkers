@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -20,6 +22,15 @@ public class GameBoard extends JPanel {
 		tileWidth = 75;
 		boardWidth = 8;
 		initializeTiles();
+		this.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				redrawTile(e.getPoint());
+				super.mouseClicked(e);
+			}
+			
+		});
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
 	}
 	
@@ -65,6 +76,14 @@ public class GameBoard extends JPanel {
 			return Tile.EMPTY;
 		}
 	}
+	
+	private void redrawTile(Point p)
+	{
+		Location loc = new Location(p.x / tileWidth, p.y / tileWidth);
+		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.setColor(Color.RED);
+		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
+	}
 
 	private boolean isEven(int num) {
 		return num % 2 == 0;
@@ -97,24 +116,6 @@ public class GameBoard extends JPanel {
 			return RED;
 		else
 			return BLACK;
-	}
-	
-	public enum Tile
-	{
-		EMPTY("empty"),
-		BLACK("black"),
-		RED("red");
-		
-		private final String _name;
-		Tile(String name)
-		{
-			_name = name;
-		}
-		
-		public String toString()
-		{
-			return _name;
-		}
 	}
 
 }
