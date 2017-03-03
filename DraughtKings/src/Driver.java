@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 
 public class Driver {
 
@@ -16,9 +19,16 @@ public class Driver {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// THIS IS A CHANGE FOR A COMMIT
-
+		JFrame frame = new JFrame("Test Window");
+		GameBoard board = new GameBoard();
+		//Left hand display
+		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
+		//the game board
+		frame.getContentPane().add(board, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
+		frame.setVisible(true);
 	}
 
 }
