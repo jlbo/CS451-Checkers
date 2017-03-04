@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -14,8 +16,8 @@ public class NetworkManager
 	
 	InetAddress IPaddr;
 	int port;
-	PrintWriter out;
-	BufferedReader in;
+	ObjectOutputStream out;
+	ObjectInputStream in;
 	
 	
 	// Constructor for Clients - connects to host, sets up input and output
@@ -32,8 +34,9 @@ public class NetworkManager
 		this.port = port;
 		
 		clientSocket = new Socket(IPaddr, port);
-		PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		out = new ObjectOutputStream(clientSocket.getOutputStream());
+		in = new ObjectInputStream(clientSocket.getInputStream());
+		out.flush();
 		    
 	}
 	
@@ -45,8 +48,9 @@ public class NetworkManager
 		
 		serverSocket = new ServerSocket(port);
 		clientSocket = serverSocket.accept();
-		PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		out = new ObjectOutputStream(clientSocket.getOutputStream());
+		in = new ObjectInputStream(clientSocket.getInputStream());
+		out.flush();
 		  
 	}
 	
@@ -54,48 +58,54 @@ public class NetworkManager
 	// sendMove: sends the move to socket
 	// Inputs: move::String in format of "move # #"
 	// Outputs: Boolean - if send fails return false otherwise return true
-	public Boolean sendMove(String move) {
-		
-		out.println(move);
-		
-		// get the ok
-		String gotit = "";
+	public Boolean sendMove(Move move) {
 		try {
-			gotit = in.readLine();
+			out.writeObject(move);
+			String ok = (String)in.readObject();
+			if(ok.equals("ok")){
+				return true;
+			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		
-		if (!new String("'ok").contentEquals(gotit)) {
-			// something went wrong
-			return false;
-		}
-		
 		return true;
 	}
 	
 	//readMove() - reads Move from socket
 	//Output - String, if success String of type "move # #", if failure empty String
-	public String readMove() {
-		String move = "";
+	public Move readMove() {
+		
 		try {
-			move = in.readLine();
-		} catch (IOException e) {
+			Move move = (Move)in.readObject();
+			sendAck();
+			return move;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//we got it
-		sendAck();
-		return move;
+		return null;
 		
 	}
 	
 	//sendAck()
 	//sends move to socket, confirms we got the move
 	public void sendAck() {
-		sendMove("'ok");
+		try {
+			out.writeObject("ok");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
