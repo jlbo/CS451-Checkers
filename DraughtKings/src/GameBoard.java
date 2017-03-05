@@ -15,6 +15,7 @@ public class GameBoard extends JPanel {
 	private HashMap<Location, GamePiece> redPieces = new HashMap<Location, GamePiece>();
 	private HashMap<Location, GamePiece> blackPieces = new HashMap<Location, GamePiece>();
 	
+	private static final Color HIGHLIGHT = new Color(255, 255, 0, 155);
 	private static final Color RED = new Color(0, 138, 213);
 	private static final Color RED_PIECE = Color.RED;
 	
@@ -28,15 +29,8 @@ public class GameBoard extends JPanel {
 		tileWidth = 75;
 		boardWidth = 8;
 		initializeTiles();
-		this.addMouseListener(new MouseAdapter() 
-		{
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				redrawTile(e.getPoint());
-				super.mouseClicked(e);
-			}
-			
-		});
+		MyMouseAdapter actionListener = new MyMouseAdapter(this);
+		this.addMouseListener(actionListener);
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
 	}
 	
@@ -87,11 +81,11 @@ public class GameBoard extends JPanel {
 		}
 	}
 	
-	private void redrawTile(Point p)
+	public void redrawTile(Point p)
 	{
-		Location loc = new Location(p.x / tileWidth, p.y / tileWidth);
+		Location loc = new Location(p, tileWidth);
 		Graphics2D g = (Graphics2D) this.getGraphics();
-		g.setColor(Color.RED);
+		g.setColor(HIGHLIGHT);
 		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
 	}
 
