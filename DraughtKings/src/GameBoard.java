@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -11,9 +12,14 @@ public class GameBoard extends JPanel {
 	private int boardWidth;
 	
 	private Tile[][] tiles = new Tile[8][8];
+	private HashMap<Location, GamePiece> redPieces = new HashMap<Location, GamePiece>();
+	private HashMap<Location, GamePiece> blackPieces = new HashMap<Location, GamePiece>();
 	
 	private static final Color RED = new Color(0, 138, 213);
+	private static final Color RED_PIECE = Color.RED;
+	
 	private static final Color BLACK = Color.GRAY;
+	private static final Color BLACK_PIECE = Color.BLACK;
 	
 	public GameBoard()
 	{
@@ -45,11 +51,15 @@ public class GameBoard extends JPanel {
 				{
 					//black pieces
 					tiles[row][col] = checkPiece(row, col, Tile.BLACK);
+					Location pos = new Location(col, row);
+					blackPieces.put(pos, new CheckerPiece(pos, tileWidth, BLACK_PIECE));
 				}
 				else if (row > 4)
 				{
 					//red pieces
 					tiles[row][col] = checkPiece(row, col, Tile.RED);
+					Location pos = new Location(col, row);
+					redPieces.put(pos, new CheckerPiece(pos, tileWidth, RED_PIECE));
 				}
 				else
 				{
@@ -104,8 +114,21 @@ public class GameBoard extends JPanel {
 			for (int y = 0; y < boardWidth; y++)
 			{
 				g.fillRect(x*tileWidth, y*tileWidth, tileWidth, tileWidth);
+				Tile currTile = tiles[y][x];
+				if (currTile != Tile.EMPTY)
+				{
+					if (currTile == Tile.BLACK)
+					{
+						blackPieces.get(new Location(x, y)).draw(g);
+					} 
+					else if (currTile == Tile.RED)
+					{
+						redPieces.get(new Location(x, y)).draw(g);
+					}
+				}
 				g.setColor(redOrBlack(g.getColor()));
-				g.drawString(tiles[y][x].toString(), x*tileWidth, y*tileWidth +15);
+				
+//				g.drawString(tiles[y][x].toString(), x*tileWidth, y*tileWidth +15);
 			}
 		}
 	}

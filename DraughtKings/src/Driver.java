@@ -1,5 +1,7 @@
 import javax.swing.*;
+
 import java.awt.*;
+import java.util.HashMap;
 
 
 public class Driver {
@@ -29,6 +31,8 @@ public class Driver {
 		frame.pack();
 		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
 		frame.setVisible(true);
+		
+		Move mv = new Move();
 	}
 
 }

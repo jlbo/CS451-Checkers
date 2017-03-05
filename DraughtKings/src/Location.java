@@ -27,5 +27,22 @@ public class Location {
 	{
 		return _y;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Location otherLoc = (Location) obj;
+		return otherLoc.getX() == getX() && otherLoc.getY() == getY();
+//		if (obj instanceof Location)
+//		{
+//			Location otherLoc = (Location) obj;
+//			return otherLoc.getX() == getX() && otherLoc.getY() == getY();
+//		}
+//		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return getX() * getY();
+	}
 	
 }
