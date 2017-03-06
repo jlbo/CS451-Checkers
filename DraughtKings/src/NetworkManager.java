@@ -15,14 +15,15 @@ public class NetworkManager
 	ServerSocket serverSocket;
 	
 	InetAddress IPaddr;
-	int port;
+	int port = 12000; // this is the port were using for now
+	Boolean isHost;
 	ObjectOutputStream out;
 	ObjectInputStream in;
 	
 	
 	// Constructor for Clients - connects to host, sets up input and output
 	// Expected Args: IP address::String, port number::Int
-	public NetworkManager(String IP, int port) throws IOException {
+	public NetworkManager(String IP) throws IOException {
 		
 		try {
 			IPaddr = InetAddress.getByName(IP);
@@ -30,27 +31,30 @@ public class NetworkManager
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		this.port = port;
-		
+				
 		clientSocket = new Socket(IPaddr, port);
 		out = new ObjectOutputStream(clientSocket.getOutputStream());
 		in = new ObjectInputStream(clientSocket.getInputStream());
 		out.flush();
+		
+		this.isHost = false;
 		    
 	}
 	
 	//Constructor for Host - creates host, connects to client, sets up input and output
 	// Expected Args: port number::Int
-	public NetworkManager(int port) throws IOException
+	public NetworkManager() throws IOException
 	{	
-		this.port = port;
 		
 		serverSocket = new ServerSocket(port);
 		clientSocket = serverSocket.accept();
 		out = new ObjectOutputStream(clientSocket.getOutputStream());
 		in = new ObjectInputStream(clientSocket.getInputStream());
 		out.flush();
+		
+		IPaddr = serverSocket.getInetAddress(); // getting host IP
+		this.isHost = true;
+		
 		  
 	}
 	
@@ -106,6 +110,11 @@ public class NetworkManager
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String getHostIPString()
+	{
+		return IPaddr.getHostAddress();
 	}
 	
 }
