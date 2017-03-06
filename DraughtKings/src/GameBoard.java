@@ -11,6 +11,8 @@ public class GameBoard extends JPanel {
 	private int tileWidth;
 	private int boardWidth;
 	
+	private Location _highlighted;
+	
 	private Tile[][] tiles = new Tile[8][8];
 	private HashMap<Location, GamePiece> redPieces = new HashMap<Location, GamePiece>();
 	private HashMap<Location, GamePiece> blackPieces = new HashMap<Location, GamePiece>();
@@ -31,6 +33,7 @@ public class GameBoard extends JPanel {
 		initializeTiles();
 		MyMouseAdapter actionListener = new MyMouseAdapter(this);
 		this.addMouseListener(actionListener);
+		setHighlighted(null);
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
 	}
 	
@@ -81,12 +84,54 @@ public class GameBoard extends JPanel {
 		}
 	}
 	
-	public void redrawTile(Point p)
+	private Color checkTile(Location loc)
 	{
-		Location loc = new Location(p, tileWidth);
+		int row = loc.getY();
+		int col = loc.getX();
+		if (isEven(row) && !isEven(col))
+		{
+			return RED;
+		}
+		else if (isEven(row) && isEven(col))
+		{
+			return BLACK;
+		}
+		else if (!isEven(row) && isEven(col))
+		{
+			return RED;
+		}
+		return BLACK;
+	}
+	
+	public Location locFromPoint(Point p)
+	{
+		return new Location(p, tileWidth);
+	}
+	
+	public void redrawTile(Location loc)
+	{
+		//What color square
+		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.setColor(checkTile(loc));
+		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
+		//Piece?
+		if (getTile(loc) == Tile.BLACK)
+		{
+			blackPieces.get(loc).draw(g);
+		}
+		else if(getTile(loc) == Tile.RED)
+		{
+			redPieces.get(loc).draw(g);
+		}
+	}
+	
+	public void highlightTile(Location loc)
+	{
+//		Location loc = new Location(p, tileWidth);
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.setColor(HIGHLIGHT);
 		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
+		setHighlighted(loc);
 	}
 
 	private boolean isEven(int num) {
@@ -133,6 +178,47 @@ public class GameBoard extends JPanel {
 			return RED;
 		else
 			return BLACK;
+	}
+
+	public Location getHighlighted() {
+		return _highlighted;
+	}
+
+	public void setHighlighted(Location _highlighted) {
+		this._highlighted = _highlighted;
+	}
+	
+	public Tile getTile(Location loc)
+	{
+		return tiles[loc.getY()][loc.getX()];
+	}
+	
+	public boolean selectPiece(Location loc)
+	{
+		if (getTile(loc) == Tile.EMPTY && getHighlighted() == null)
+		{
+			//can't click a blank square
+			return false;
+		}
+		if (getHighlighted() == null)
+		{
+			//not clicking a blank square, so select this piece
+			highlightTile(loc);
+		}
+		else if (getHighlighted() == loc)
+		{
+			//clicking the already highlighted square, so deselect
+			redrawTile(loc);
+			setHighlighted(null);
+		}
+		else
+		{
+			//TODO:check move between getHighlighted and e.getPoint
+			//if move fails, redraw this tile
+			redrawTile(getHighlighted());
+			setHighlighted(null);
+		}
+		return true;
 	}
 
 }
