@@ -22,7 +22,7 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Test Window");
-		GameBoard board = new GameBoard();
+		GameBoard board = new GameBoard(8, 75);
 		//Left hand display
 		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
 		//the game board

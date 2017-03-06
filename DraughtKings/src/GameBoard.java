@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 
 public class GameBoard extends JPanel {
 
-	private int tileWidth;
-	private int boardWidth;
+	private int _tileWidth;
+	private int _boardWidth;
 	
 	private Location _highlighted;
 	
-	private Tile[][] tiles = new Tile[8][8];
+	private Tile[][] tiles;
 	private HashMap<Location, GamePiece> redPieces = new HashMap<Location, GamePiece>();
 	private HashMap<Location, GamePiece> blackPieces = new HashMap<Location, GamePiece>();
 	
@@ -24,12 +24,13 @@ public class GameBoard extends JPanel {
 	private static final Color BLACK = Color.GRAY;
 	private static final Color BLACK_PIECE = Color.BLACK;
 	
-	public GameBoard()
+	public GameBoard(int boardWidth, int tileWidth)
 	{
 		//Call super constructor
 		super();
-		tileWidth = 75;
-		boardWidth = 8;
+		_tileWidth = tileWidth;
+		_boardWidth = boardWidth;
+		tiles = new Tile[boardWidth][boardWidth];
 		initializeTiles();
 		MyMouseAdapter actionListener = new MyMouseAdapter(this);
 		this.addMouseListener(actionListener);
@@ -40,23 +41,23 @@ public class GameBoard extends JPanel {
 	private void initializeTiles()
 	{
 		//black pieces
-		for (int row = 0; row < boardWidth; row++)
+		for (int row = 0; row < _boardWidth; row++)
 		{
-			for (int col = 0; col < boardWidth; col++)
+			for (int col = 0; col < _boardWidth; col++)
 			{
 				if (row < 3)
 				{
 					//black pieces
-					tiles[row][col] = checkPiece(row, col, Tile.BLACK);
 					Location pos = new Location(col, row);
-					blackPieces.put(pos, new CheckerPiece(pos, tileWidth, BLACK_PIECE));
+					tiles[row][col] = checkPiece(pos, Tile.BLACK);
+					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE));
 				}
 				else if (row > 4)
 				{
 					//red pieces
-					tiles[row][col] = checkPiece(row, col, Tile.RED);
 					Location pos = new Location(col, row);
-					redPieces.put(pos, new CheckerPiece(pos, tileWidth, RED_PIECE));
+					tiles[row][col] = checkPiece(pos, Tile.RED);
+					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE));
 				}
 				else
 				{
@@ -67,8 +68,10 @@ public class GameBoard extends JPanel {
 		}
 	}
 	
-	private Tile checkPiece(int row, int col, Tile color)
+	private Tile checkPiece(Location loc, Tile color)
 	{
+		int row = loc.getY();
+		int col = loc.getX();
 		//Even rows, odd cols, place a piece
 		if (isEven(row) && !isEven(col))
 		{
@@ -105,7 +108,7 @@ public class GameBoard extends JPanel {
 	
 	public Location locFromPoint(Point p)
 	{
-		return new Location(p, tileWidth);
+		return new Location(p, _tileWidth);
 	}
 	
 	public void redrawTile(Location loc)
@@ -113,7 +116,7 @@ public class GameBoard extends JPanel {
 		//What color square
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.setColor(checkTile(loc));
-		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
+		g.fillRect(loc.getX() * _tileWidth, loc.getY() * _tileWidth, _tileWidth, _tileWidth);
 		//Piece?
 		if (getTile(loc) == Tile.BLACK)
 		{
@@ -127,10 +130,9 @@ public class GameBoard extends JPanel {
 	
 	public void highlightTile(Location loc)
 	{
-//		Location loc = new Location(p, tileWidth);
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.setColor(HIGHLIGHT);
-		g.fillRect(loc.getX() * tileWidth, loc.getY() * tileWidth, tileWidth, tileWidth);
+		g.fillRect(loc.getX() * _tileWidth, loc.getY() * _tileWidth, _tileWidth, _tileWidth);
 		setHighlighted(loc);
 	}
 
@@ -147,39 +149,32 @@ public class GameBoard extends JPanel {
 	private void drawBoard(Graphics2D g)
 	{
 		g.setColor(RED);
-		for (int x = 0; x < boardWidth; x++)
+		for (int x = 0; x < _boardWidth; x++)
 		{
-			g.setColor(redOrBlack(g.getColor()));
-			for (int y = 0; y < boardWidth; y++)
+			for (int y = 0; y < _boardWidth; y++)
 			{
-				g.fillRect(x*tileWidth, y*tileWidth, tileWidth, tileWidth);
 				Tile currTile = tiles[y][x];
+				Location loc = new Location(x, y);
+				//switch color every column
+				g.setColor(checkTile(loc));
+				g.fillRect(x*_tileWidth, y*_tileWidth, _tileWidth, _tileWidth);
 				if (currTile != Tile.EMPTY)
 				{
 					if (currTile == Tile.BLACK)
 					{
-						blackPieces.get(new Location(x, y)).draw(g);
+						blackPieces.get(loc).draw(g);
 					} 
 					else if (currTile == Tile.RED)
 					{
-						redPieces.get(new Location(x, y)).draw(g);
+						redPieces.get(loc).draw(g);
 					}
 				}
-				g.setColor(redOrBlack(g.getColor()));
-				
-//				g.drawString(tiles[y][x].toString(), x*tileWidth, y*tileWidth +15);
+				//switch color every row
+				g.setColor(checkTile(loc));
 			}
 		}
 	}
 	
-	private Color redOrBlack(Color c)
-	{
-		if (c.equals(BLACK))
-			return RED;
-		else
-			return BLACK;
-	}
-
 	public Location getHighlighted() {
 		return _highlighted;
 	}
