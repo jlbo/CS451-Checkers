@@ -6,7 +6,8 @@ import java.util.*;
 import javax.swing.JPanel;
 
 
-public class GameBoard extends JPanel {
+public class GameBoard extends JPanel 
+{
 
 	private int _tileWidth;
 	private int _boardWidth;
@@ -50,20 +51,19 @@ public class GameBoard extends JPanel {
 					//black pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.BLACK);
-					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE));
+					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE, this));
 				}
 				else if (row > 4)
 				{
 					//red pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.RED);
-					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE));
+					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE, this));
 				}
 				else
 				{
 					tiles[row][col] = Tile.EMPTY;
 				}
-				
 			}
 		}
 	}
@@ -136,12 +136,14 @@ public class GameBoard extends JPanel {
 		setHighlighted(loc);
 	}
 
-	private boolean isEven(int num) {
+	private boolean isEven(int num) 
+	{
 		return num % 2 == 0;
 	}
 	
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) 
+	{
 		super.paintComponent(g);
 		drawBoard((Graphics2D) g);
 	}
@@ -175,11 +177,13 @@ public class GameBoard extends JPanel {
 		}
 	}
 	
-	public Location getHighlighted() {
+	public Location getHighlighted() 
+	{
 		return _highlighted;
 	}
 
-	public void setHighlighted(Location _highlighted) {
+	public void setHighlighted(Location _highlighted) 
+	{
 		this._highlighted = _highlighted;
 	}
 	
@@ -215,5 +219,4 @@ public class GameBoard extends JPanel {
 		}
 		return true;
 	}
-
 }
