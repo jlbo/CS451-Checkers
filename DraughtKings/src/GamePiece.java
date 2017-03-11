@@ -6,12 +6,14 @@ public abstract class GamePiece {
 	private Location _position;
 	private int _pieceWidth;
 	private Color _color;
+	private GameBoard _board;
 	
-	public GamePiece(Location pos, int width, Color color)
+	public GamePiece(Location pos, int width, Color color, GameBoard board)
 	{
 		_position = pos;
 		_pieceWidth = width;
 		_color = color;
+		_board = board;
 	}
 	
 	public void move(Location newPos)
@@ -57,6 +59,10 @@ public abstract class GamePiece {
 
 	public void setColor(Color _color) {
 		this._color = _color;
+	}
+
+	public GameBoard getBoard() {
+		return _board;
 	}
 	
 }
