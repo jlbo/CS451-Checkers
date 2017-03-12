@@ -25,8 +25,8 @@ public class Driver {
 	}
 	
 	public static void main(String[] args) {
-		final GameManager[] gm = null;
-		final NetworkManager[] nm = null;
+		final GameManager[] gm = {null};
+		final NetworkManager[] nm = {null};
 		
 		
 		final String[] IP = {""};
@@ -49,10 +49,10 @@ public class Driver {
 			public void actionPerformed(ActionEvent e){
 				//Host game
 				try {
-					JLabel joiningMessage = new JLabel("Waiting for player to join...");
-					JoinPanel.add(joiningMessage);
-					MenuFrame.add(JoinPanel, BorderLayout.SOUTH);
-					MenuFrame.setVisible(true);
+//					JLabel joiningMessage = new JLabel("Waiting for player to join...");
+//					JoinPanel.add(joiningMessage);
+//					MenuFrame.add(JoinPanel, BorderLayout.SOUTH);
+//					MenuFrame.setVisible(true);
 					
 					nm[0] = hostGame();
 				} catch (IOException e1) {
