@@ -25,8 +25,11 @@ public class GameManager
 		frame.setVisible(true);
 		
 		while(!board.gameOver()) {
-			if (playerTurn) {
+			if (board.isMyTurn()) {
 				
+			} else {
+				Move newMove = nm.readMove();
+				board.updateBoard(newMove);
 			}
 		}
 	}
