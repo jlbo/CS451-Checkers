@@ -63,14 +63,20 @@ public class GameBoard extends JPanel
 					//black pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.BLACK);
-					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE, tiles[row][col], this));
+					if (tiles[row][col] != Tile.EMPTY)
+					{
+						blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE, tiles[row][col], this));
+					}
 				}
 				else if (row > 4)
 				{
 					//red pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.RED);
-					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE, tiles[row][col], this));
+					if (tiles[row][col] != Tile.EMPTY)
+					{
+						redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE, tiles[row][col], this));
+					}
 				}
 				else
 				{
