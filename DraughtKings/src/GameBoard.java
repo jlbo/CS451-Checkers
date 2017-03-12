@@ -185,6 +185,16 @@ public class GameBoard extends JPanel
 		}
 	}
 	
+	public void updateBoard(Move newMove)
+	{
+		this.tiles = newMove.getTiles();
+		for (int i = 0; i < this.getBoardWidth(); i++) {
+			for (int j = 0; j < this.getBoardWidth(); j++) {
+				this.redrawTile(new Location(i,j));
+			}
+		}
+	}
+	
 	public Location getHighlighted() 
 	{
 		return _highlighted;
