@@ -28,20 +28,22 @@ public class GameBoard extends JPanel
 	private boolean isMyTurn;
 	private Move lastMove;
 	private boolean moved;
+	private boolean _isHost;
 	
-	public GameBoard(int boardWidth, int tileWidth, boolean isMyTurn)
+	public GameBoard(int boardWidth, int tileWidth, boolean isHost)
 	{
 		//Call super constructor
 		super();
 		_tileWidth = tileWidth;
 		_boardWidth = boardWidth;
+		_isHost = isHost;
 		tiles = new Tile[boardWidth][boardWidth];
 		initializeTiles();
 		MyMouseAdapter actionListener = new MyMouseAdapter(this);
 		this.addMouseListener(actionListener);
 		setHighlighted(null);
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
-		this.isMyTurn = isMyTurn;
+		this.isMyTurn = isHost;
 		this.lastMove = new Move(tiles);
 		this.setMoved(false);
 	}
@@ -341,7 +343,13 @@ public class GameBoard extends JPanel
 	
 	public boolean selectPiece(Location clickPos)
 	{
+		if(gameOver())
+			return false;
+		
 		if(!this.isMyTurn())
+			return false;
+		
+		if(!myTeam(getTile(clickPos)))
 			return false;
 		
 		Location highlightedPos = getHighlighted();
@@ -374,6 +382,19 @@ public class GameBoard extends JPanel
 			setHighlighted(null);
 		}
 		return true;
+	}
+	
+	private boolean myTeam(Tile tile)
+	{
+		if (_isHost && tile == Tile.RED)
+		{
+			return true;
+		}
+		else if (!_isHost && tile == Tile.BLACK)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean gameOver()
