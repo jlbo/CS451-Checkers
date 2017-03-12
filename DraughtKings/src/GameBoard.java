@@ -39,6 +39,11 @@ public class GameBoard extends JPanel
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
 	}
 	
+	public int getBoardWidth()
+	{
+		return _tileWidth * _boardWidth;
+	}
+	
 	private void initializeTiles()
 	{
 		//black pieces
@@ -51,14 +56,14 @@ public class GameBoard extends JPanel
 					//black pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.BLACK);
-					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE, this));
+					blackPieces.put(pos, new CheckerPiece(pos, _tileWidth, BLACK_PIECE, tiles[row][col], this));
 				}
 				else if (row > 4)
 				{
 					//red pieces
 					Location pos = new Location(col, row);
 					tiles[row][col] = checkPiece(pos, Tile.RED);
-					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE, this));
+					redPieces.put(pos, new CheckerPiece(pos, _tileWidth, RED_PIECE, tiles[row][col], this));
 				}
 				else
 				{
@@ -192,29 +197,100 @@ public class GameBoard extends JPanel
 		return tiles[loc.getY()][loc.getX()];
 	}
 	
-	public boolean selectPiece(Location loc)
+	public void setTile(Location loc, Tile newT)
 	{
-		if (getTile(loc) == Tile.EMPTY && getHighlighted() == null)
+		tiles[loc.getY()][loc.getX()] = newT;
+	}
+	
+	private GamePiece getPiece(Location loc)
+	{
+		Tile tileAt = getTile(loc); 
+		if(tileAt == Tile.EMPTY)
+		{
+			return null;
+		} 
+		else if (tileAt == Tile.BLACK)
+		{
+			return blackPieces.get(loc);
+		}
+		else
+		{
+			return redPieces.get(loc);
+		}
+	}
+	
+	private void movePiece(GamePiece piece, Location from)
+	{
+		setTile(from, Tile.EMPTY);
+		setTile(piece.getLocation(), piece.getTile());
+		if (piece.getTile() == Tile.BLACK)
+		{
+			blackPieces.put(piece.getLocation(), piece);
+			blackPieces.remove(from);
+		}
+		else if (piece.getTile() == Tile.RED)
+		{
+			redPieces.put(piece.getLocation(), piece);
+			redPieces.remove(from);
+		}
+		checkCapture(piece, from);
+	}
+	
+	private void checkCapture(GamePiece piece, Location from)
+	{
+		Location newPos = piece.getLocation();
+		//did it move TWO squares forward/backward?
+		//must have captured
+		boolean capture = Math.abs(newPos.getY() - from.getY()) > 1;
+		if (capture)
+		{
+			int x = (piece.getLocation().getX() + from.getX())/2;
+			int y = (piece.getLocation().getY() + from.getY())/2;
+			Location enemyPos = new Location(x, y);
+			System.out.println("piece moved from "+ from + " to " + newPos);
+			System.out.println(enemyPos);
+			if (piece.getTile() == Tile.BLACK)
+			{
+				redPieces.remove(enemyPos);
+			}
+			else if (piece.getTile() == Tile.RED)
+			{
+				blackPieces.remove(enemyPos);
+			}
+			setTile(enemyPos, Tile.EMPTY);
+			redrawTile(enemyPos);
+		}
+	}
+	
+	public boolean selectPiece(Location clickPos)
+	{
+		Location highlightedPos = getHighlighted();
+		if (getTile(clickPos) == Tile.EMPTY && getHighlighted() == null)
 		{
 			//can't click a blank square
 			return false;
 		}
-		if (getHighlighted() == null)
+		if (highlightedPos == null)
 		{
 			//not clicking a blank square, so select this piece
-			highlightTile(loc);
+			highlightTile(clickPos);
 		}
-		else if (getHighlighted() == loc)
+		else if (highlightedPos == clickPos)
 		{
 			//clicking the already highlighted square, so deselect
-			redrawTile(loc);
+			redrawTile(clickPos);
 			setHighlighted(null);
 		}
 		else
 		{
-			//TODO:check move between getHighlighted and e.getPoint
+			GamePiece selectedPiece = getPiece(highlightedPos);
+			if (selectedPiece.attemptMove(clickPos))
+			{
+				movePiece(selectedPiece, highlightedPos);
+			}
 			//if move fails, redraw this tile
-			redrawTile(getHighlighted());
+			redrawTile(highlightedPos);
+			redrawTile(clickPos);
 			setHighlighted(null);
 		}
 		return true;

@@ -12,6 +12,10 @@ public class MyMouseAdapter extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getPoint().getX() > _board.getBoardWidth() || e.getPoint().getY() > _board.getBoardWidth())
+		{
+			return;
+		}
 		Location loc = _board.locFromPoint(e.getPoint());
 		_board.selectPiece(loc);
 //		if (_board.getHighlighted() == null)

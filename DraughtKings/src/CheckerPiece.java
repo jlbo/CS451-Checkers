@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class CheckerPiece extends GamePiece {
 
-	public CheckerPiece(Location pos, int width, Color color, GameBoard board) {
-		super(pos, width, color, board);
+	public CheckerPiece(Location pos, int width, Color color, Tile tile, GameBoard board) {
+		super(pos, width, color, tile, board);
 	}
 
 	@Override
@@ -16,7 +16,6 @@ public class CheckerPiece extends GamePiece {
 		{
 			return false;
 		}
-		
 		
 		Location oldPos = getLocation();
 		
@@ -50,28 +49,6 @@ public class CheckerPiece extends GamePiece {
 			return true;
 		}
 		
-		if(getColor() == GameBoard.BLACK_PIECE)
-		{
-			//if color is BLACK, then moving in direction of INCREASE Y
-			if(newPos.getY() == oldPos.getY() + 1)
-			{
-				if(newPos.getX() == oldPos.getX() + 1 && newPos.getX() == oldPos.getX() - 1)
-				{
-					return true;
-				}
-			}
-		} 
-		else if(getColor() == GameBoard.RED_PIECE) 
-		{
-			//if color is RED, then moving in direction of DECREASE Y
-			if(newPos.getY() == oldPos.getY() - 1)
-			{
-				if(newPos.getX() == oldPos.getX() + 1 && newPos.getX() == oldPos.getX() - 1)
-				{
-					return true;
-				}
-			}
-		}
 		return false;
 	}
 	

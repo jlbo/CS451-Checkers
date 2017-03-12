@@ -2,8 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class KingPiece extends GamePiece {
-	public KingPiece(Location pos, int width, Color color, GameBoard board) {
-		super(pos, width, color, board);
+	public KingPiece(Location pos, int width, Color color, Tile tile, GameBoard board) {
+		super(pos, width, color, tile, board);
 	}
 
 	@Override

@@ -44,5 +44,10 @@ public class Location {
 	public int hashCode() {
 		return getX() * getY();
 	}
+
+	@Override
+	public String toString() {
+		return "Location: (" + getX() + ", " + getY() + ")";
+	}
 	
 }

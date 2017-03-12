@@ -6,13 +6,15 @@ public abstract class GamePiece {
 	private Location _position;
 	private int _pieceWidth;
 	private Color _color;
+	private Tile _tile;
 	private GameBoard _board;
 	
-	public GamePiece(Location pos, int width, Color color, GameBoard board)
+	public GamePiece(Location pos, int width, Color color, Tile tile, GameBoard board)
 	{
 		_position = pos;
 		_pieceWidth = width;
 		_color = color;
+		_tile = tile;
 		_board = board;
 	}
 	
@@ -59,6 +61,14 @@ public abstract class GamePiece {
 
 	public void setColor(Color _color) {
 		this._color = _color;
+	}
+
+	public Tile getTile() {
+		return _tile;
+	}
+
+	public void setTile(Tile _tile) {
+		this._tile = _tile;
 	}
 
 	public GameBoard getBoard() {
