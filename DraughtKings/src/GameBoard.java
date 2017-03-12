@@ -212,6 +212,7 @@ public class GameBoard extends JPanel
 			}
 			redrawTile(captPos);
 		}
+		System.out.println("Tile at + " + newMove.getTo() + " is " + getTile(newMove.getTo()));
 		updatePiece(newMove.getTo(), newMove.getFrom(), getTile(newMove.getTo()));
 	}
 	
@@ -221,11 +222,13 @@ public class GameBoard extends JPanel
 		{
 			GamePiece piece = blackPieces.get(from);
 			blackPieces.put(to, piece);
+			blackPieces.remove(from);
 		}
 		else if (tile.getColor() == RED_PIECE)
 		{
 			GamePiece piece = redPieces.get(from);
 			redPieces.put(to, piece);
+			redPieces.remove(from);
 		}
 		redrawTile(to);
 		redrawTile(from);
