@@ -295,4 +295,13 @@ public class GameBoard extends JPanel
 		}
 		return true;
 	}
+	
+	public boolean gameOver()
+	{
+		if (blackPieces.isEmpty() || redPieces.isEmpty())
+		{
+			return true;
+		}
+		else return false;
+	}
 }
