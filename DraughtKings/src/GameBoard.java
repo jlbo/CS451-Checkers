@@ -199,7 +199,7 @@ public class GameBoard extends JPanel
 //				this.redrawTile(loc);
 //			}
 //		}
-		Location captPos = newMove.getEliminated();
+		/*Location captPos = newMove.getEliminated();
 		if (captPos != null)
 		{
 			if (blackPieces.containsKey(captPos))
@@ -211,7 +211,7 @@ public class GameBoard extends JPanel
 				redPieces.remove(captPos);
 			}
 			redrawTile(captPos);
-		}
+		}*/
 		System.out.println("Tile at + " + newMove.getTo() + " is " + getTile(newMove.getTo()));
 		updatePiece(newMove.getTo(), newMove.getFrom(), getTile(newMove.getTo()));
 	}
@@ -220,15 +220,15 @@ public class GameBoard extends JPanel
 	{
 		if (tile.getColor() == BLACK_PIECE)
 		{
-			GamePiece piece = blackPieces.get(from);
+			GamePiece piece = blackPieces.remove(from);
 			blackPieces.put(to, piece);
-			blackPieces.remove(from);
+			System.out.println("Updated hashmap at " + to + " with " + blackPieces.get(to));
 		}
 		else if (tile.getColor() == RED_PIECE)
 		{
-			GamePiece piece = redPieces.get(from);
+			GamePiece piece = redPieces.remove(from);
 			redPieces.put(to, piece);
-			redPieces.remove(from);
+			System.out.println("Updated hashmap at " + to + " with " + redPieces.get(to));
 		}
 		redrawTile(to);
 		redrawTile(from);
@@ -286,7 +286,7 @@ public class GameBoard extends JPanel
 			redPieces.remove(from);
 		}
 		Location capturedPos = checkCapture(piece, from);
-		lastMove.setTiles(tiles);
+		lastMove = new Move(tiles);
 		lastMove.setEliminated(capturedPos);
 		lastMove.setFrom(from);
 		lastMove.setTo(piece.getLocation());

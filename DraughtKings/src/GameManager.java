@@ -26,15 +26,32 @@ public class GameManager
 		
 		while(!board.gameOver()) {
 			if (board.isMyTurn()) {
+				try {
+					Thread.sleep(500);
+				} catch (Exception ex) {
+					//failed	
+				}
 				if (board.isMoved()) {
-					nm.sendMove(board.getLastMove());
-					board.setMoved(false);
-					board.setMyTurn(false);
+					System.out.println("Did it get to send?");
+					
+					if (nm.sendMove(board.getLastMove())) {
+					
+						System.out.println("It sent");
+						board.setMoved(false);
+						board.setMyTurn(false);
+					}
+					else 
+						System.out.println("sendMove returned false");
 				}
 			} else {
 				Move newMove = nm.readMove();
-				board.updateBoard(newMove);
-				board.setMyTurn(true);
+				if (newMove != null) {
+					board.updateBoard(newMove);
+					board.setMyTurn(true);
+					System.out.println("newMove successfully recieved");
+				}
+				else
+					System.out.println("newMove did not get recieved succefully");
 			}
 		}
 	}
