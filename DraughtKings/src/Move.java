@@ -14,4 +14,9 @@ public class Move implements Serializable {
 	{
 		return tiles;
 	}
+	
+	public void setTiles(Tile[][] tiles)
+	{
+		this.tiles = tiles;
+	}
 }

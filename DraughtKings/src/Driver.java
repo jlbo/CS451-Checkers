@@ -25,15 +25,41 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		GameManager gm;
-		NetworkManager nm;
+		NetworkManager nm = null;
 		
-		if (/*clicks host game*/) {
-			nm = hostGame();
-		} else if (/*clicks join game*/) {
-			String ipaddr = null;//get IP address here
-			nm= joinGame(ipaddr);
+//		if (true) { /*clicks host game*/
+//			try {
+//				nm = hostGame();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} else if (true) { /*clicks join game*/
+//			String ipaddr = null;//get IP address here
+//			try {
+//				nm= joinGame(ipaddr);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
+		boolean host = true;
+		if (host) {
+			try {
+				nm = hostGame();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				nm = joinGame("localhost");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 		gm = new GameManager(nm);
 		gm.start();
 	}

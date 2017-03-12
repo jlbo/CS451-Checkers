@@ -26,7 +26,10 @@ public class GameManager
 		
 		while(!board.gameOver()) {
 			if (board.isMyTurn()) {
-				
+				if (board.isMoved()) {
+					nm.sendMove(board.getLastMove());
+					board.setMoved(false);
+				}
 			} else {
 				Move newMove = nm.readMove();
 				board.updateBoard(newMove);

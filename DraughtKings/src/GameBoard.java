@@ -26,6 +26,8 @@ public class GameBoard extends JPanel
 	public static final Color BLACK_PIECE = Color.BLACK;
 	
 	private boolean isMyTurn;
+	private Move lastMove;
+	private boolean moved;
 	
 	public GameBoard(int boardWidth, int tileWidth, boolean isMyTurn)
 	{
@@ -40,6 +42,8 @@ public class GameBoard extends JPanel
 		setHighlighted(null);
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
 		this.isMyTurn = isMyTurn;
+		this.lastMove = new Move(tiles);
+		this.setMoved(false);
 	}
 	
 	public int getBoardWidth()
@@ -247,6 +251,10 @@ public class GameBoard extends JPanel
 			redPieces.remove(from);
 		}
 		checkCapture(piece, from);
+		this.isMyTurn = false;
+		lastMove.setTiles(tiles);
+		this.setMoved(true);
+		
 	}
 	
 	private void checkCapture(GamePiece piece, Location from)
@@ -327,5 +335,21 @@ public class GameBoard extends JPanel
 
 	public void setMyTurn(boolean isMyTurn) {
 		this.isMyTurn = isMyTurn;
+	}
+
+	public Move getLastMove() {
+		return lastMove;
+	}
+
+	public void setLastMove(Move lastMove) {
+		this.lastMove = lastMove;
+	}
+
+	public boolean isMoved() {
+		return moved;
+	}
+
+	public void setMoved(boolean moved) {
+		this.moved = moved;
 	}
 }
