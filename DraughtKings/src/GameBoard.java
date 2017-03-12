@@ -143,7 +143,9 @@ public class GameBoard extends JPanel
 		else if(getTile(loc) == Tile.RED)
 		{
 			redPieces.get(loc).draw(g);
-		}
+		} else {
+            System.out.println("Is it empty?");
+        }
 	}
 	
 	public void highlightTile(Location loc)
@@ -168,6 +170,7 @@ public class GameBoard extends JPanel
 	
 	private void drawBoard(Graphics2D g)
 	{
+		System.out.println("the board is being drawn");
 		g.setColor(RED);
 		for (int x = 0; x < _boardWidth; x++)
 		{
@@ -218,26 +221,42 @@ public class GameBoard extends JPanel
 			}
 			redrawTile(captPos);
 		}*/
+
 		System.out.println("Tile at + " + newMove.getTo() + " is " + getTile(newMove.getTo()));
 		updatePiece(newMove.getTo(), newMove.getFrom(), getTile(newMove.getTo()));
 	}
 	
 	private void updatePiece(Location to, Location from, Tile tile)
 	{
+        System.out.println(tile.getColor());
 		if (tile.getColor() == BLACK_PIECE)
 		{
 			GamePiece piece = blackPieces.remove(from);
+            piece.setLocation(to);
 			blackPieces.put(to, piece);
 			System.out.println("Updated hashmap at " + to + " with " + blackPieces.get(to));
 		}
 		else if (tile.getColor() == RED_PIECE)
 		{
 			GamePiece piece = redPieces.remove(from);
+            piece.setLocation(to);
 			redPieces.put(to, piece);
 			System.out.println("Updated hashmap at " + to + " with " + redPieces.get(to));
 		}
 		redrawTile(to);
 		redrawTile(from);
+        
+        System.out.println("Location of black pieces");
+        for (Location l : blackPieces.keySet()) {
+            System.out.println("("+l.getX()+","+l.getY()+") :: " + blackPieces.get(l).toString());
+        }
+        
+        System.out.println("Location of red pieces");
+        for (Location l : redPieces.keySet()) {
+            System.out.println("("+l.getX()+","+l.getY()+") :: " + redPieces.get(l).toString());
+        }
+
+
 	}
 	
 	public Location getHighlighted() 

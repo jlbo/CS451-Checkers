@@ -21,6 +21,7 @@ public abstract class GamePiece {
 	public void move(Location newPos)
 	{
 		setLocation(newPos);
+        System.out.println("Set: " + this + "To: " + this.getLocation());
 	}
 	
 	public abstract boolean checkMove(Location newPos);
@@ -74,5 +75,11 @@ public abstract class GamePiece {
 	public GameBoard getBoard() {
 		return _board;
 	}
+
+    public String toString()
+    {
+        return "Pos= " + this._position.toString() + "/nTile= " + 
+            this._tile.toString() + "/nColor= " + this._color.toString();
+    }
 	
 }
