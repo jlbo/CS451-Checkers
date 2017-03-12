@@ -113,6 +113,21 @@ public class NetworkManager
 		}
 	}
 	
+	public boolean readAck() {
+		try {
+			String ok = (String) in.readObject();
+			if (ok.equalsIgnoreCase("ok"))
+				return true;
+			return false;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+		
+	}
 	public String getHostIPString()
 	{
 		return IPaddr.getHostAddress();

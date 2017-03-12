@@ -28,16 +28,16 @@ public class Driver {
 	}
 	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Test Window");
-		GameBoard board = new GameBoard(8, 75);
-		//Left hand display
-		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
-		//the game board
-		frame.getContentPane().add(board, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
-		frame.setVisible(true);
+//		JFrame frame = new JFrame("Test Window");
+//		GameBoard board = new GameBoard(8, 75);
+//		//Left hand display
+//		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
+//		//the game board
+//		frame.getContentPane().add(board, BorderLayout.CENTER);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.pack();
+//		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
+//		frame.setVisible(true);
 		
 		//while (!gameOver)
 		//	yourTurn()
@@ -48,7 +48,31 @@ public class Driver {
 		//		lockControls
 		//	redraw()
 		
-		Move mv = new Move();
+		boolean host = true;
+		if (host) {
+			NetworkManager nm;
+			try {
+				nm = new NetworkManager();
+				nm.sendAck();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else {
+			try {
+				NetworkManager nm = new NetworkManager("206.125.51.146");
+				if (nm.readAck())
+					System.out.println("Okie DOkie");
+				else
+					System.out.println("Oops");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
 	}
 
 }
