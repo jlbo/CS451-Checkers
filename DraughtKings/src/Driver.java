@@ -28,27 +28,8 @@ public class Driver {
 	}
 	
 	public static void main(String[] args) {
-//		JFrame frame = new JFrame("Test Window");
-//		GameBoard board = new GameBoard(8, 75);
-//		//Left hand display
-//		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
-//		//the game board
-//		frame.getContentPane().add(board, BorderLayout.CENTER);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.pack();
-//		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
-//		frame.setVisible(true);
-		
-		//while (!gameOver)
-		//	yourTurn()
-		//		unlockControls
-		//		while(!validInput)
-		//			try to get input (attemptMove)
-		//	theirTurn()
-		//		lockControls
-		//	redraw()
-		
-		boolean host = true;
+
+		boolean host = false;
 		if (host) {
 			NetworkManager nm;
 			try {
@@ -61,7 +42,7 @@ public class Driver {
 			
 		} else {
 			try {
-				NetworkManager nm = new NetworkManager("206.125.51.146");
+				NetworkManager nm = new NetworkManager("10.250.39.33");
 				if (nm.readAck())
 					System.out.println("Okie DOkie");
 				else
