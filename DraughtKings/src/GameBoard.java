@@ -20,10 +20,10 @@ public class GameBoard extends JPanel
 	
 	private static final Color HIGHLIGHT = new Color(255, 255, 0, 155);
 	private static final Color RED = new Color(0, 138, 213);
-	private static final Color RED_PIECE = Color.RED;
+	public static final Color RED_PIECE = Color.RED;
 	
 	private static final Color BLACK = Color.GRAY;
-	private static final Color BLACK_PIECE = Color.BLACK;
+	public static final Color BLACK_PIECE = Color.BLACK;
 	
 	public GameBoard(int boardWidth, int tileWidth)
 	{
