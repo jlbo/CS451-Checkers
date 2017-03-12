@@ -60,7 +60,7 @@ public class Driver {
 					e1.printStackTrace();
 				}
 				gm[0] = new GameManager(nm[0]);
-				gm[0].start();	
+				gm[0].start(GameFrame);	
 			}
 		});
 		
@@ -93,7 +93,7 @@ public class Driver {
 							e1.printStackTrace();
 						}
 						gm[0] = new GameManager(nm[0]);
-						gm[0].start();
+						gm[0].start(GameFrame);
 					}
 				});
 				

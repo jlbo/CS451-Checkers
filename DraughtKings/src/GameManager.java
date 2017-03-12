@@ -11,9 +11,9 @@ public class GameManager
 		this.nm = nm;
 		playerTurn = nm.isHost;
 	}
-	public void start()
+	public void start(JFrame frame)
 	{
-		JFrame frame = new JFrame("Test Window");
+//		JFrame frame = new JFrame("Test Window");
 		GameBoard board = new GameBoard(8, 75, nm.isHost);
 		//Left hand display
 		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
