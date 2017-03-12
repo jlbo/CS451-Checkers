@@ -349,8 +349,7 @@ public class GameBoard extends JPanel
 		if(!this.isMyTurn())
 			return false;
 		
-		if(!myTeam(getTile(clickPos)))
-			return false;
+		
 		
 		Location highlightedPos = getHighlighted();
 		if (getTile(clickPos) == Tile.EMPTY && getHighlighted() == null)
@@ -360,6 +359,10 @@ public class GameBoard extends JPanel
 		}
 		if (highlightedPos == null)
 		{
+			//can't highlight other team
+			if(!myTeam(getTile(clickPos)))
+				return false;
+			
 			//not clicking a blank square, so select this piece
 			highlightTile(clickPos);
 		}
