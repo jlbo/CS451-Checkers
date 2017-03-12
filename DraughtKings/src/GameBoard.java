@@ -277,36 +277,39 @@ public class GameBoard extends JPanel
 	
 	public boolean selectPiece(Location clickPos)
 	{
-		Location highlightedPos = getHighlighted();
-		if (getTile(clickPos) == Tile.EMPTY && getHighlighted() == null)
-		{
-			//can't click a blank square
-			return false;
-		}
-		if (highlightedPos == null)
-		{
-			//not clicking a blank square, so select this piece
-			highlightTile(clickPos);
-		}
-		else if (highlightedPos == clickPos)
-		{
-			//clicking the already highlighted square, so deselect
-			redrawTile(clickPos);
-			setHighlighted(null);
-		}
-		else
-		{
-			GamePiece selectedPiece = getPiece(highlightedPos);
-			if (selectedPiece.attemptMove(clickPos))
+		if(this.isMyTurn() == true){
+			Location highlightedPos = getHighlighted();
+			if (getTile(clickPos) == Tile.EMPTY && getHighlighted() == null)
 			{
-				movePiece(selectedPiece, highlightedPos);
+				//can't click a blank square
+				return false;
 			}
-			//if move fails, redraw this tile
-			redrawTile(highlightedPos);
-			redrawTile(clickPos);
-			setHighlighted(null);
+			if (highlightedPos == null)
+			{
+				//not clicking a blank square, so select this piece
+				highlightTile(clickPos);
+			}
+			else if (highlightedPos == clickPos)
+			{
+				//clicking the already highlighted square, so deselect
+				redrawTile(clickPos);
+				setHighlighted(null);
+			}
+			else
+			{
+				GamePiece selectedPiece = getPiece(highlightedPos);
+				if (selectedPiece.attemptMove(clickPos))
+				{
+					movePiece(selectedPiece, highlightedPos);
+				}
+				//if move fails, redraw this tile
+				redrawTile(highlightedPos);
+				redrawTile(clickPos);
+				setHighlighted(null);
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean gameOver()

@@ -48,10 +48,10 @@ public class NetworkManager
 		
 		serverSocket = new ServerSocket(port);
 		clientSocket = serverSocket.accept();
+		clientSocket.setSoTimeout(5000);
 		out = new ObjectOutputStream(clientSocket.getOutputStream());
 		in = new ObjectInputStream(clientSocket.getInputStream());
 		out.flush();
-		
 		IPaddr = serverSocket.getInetAddress(); // getting host IP
 		this.isHost = true;
 		
@@ -78,7 +78,8 @@ public class NetworkManager
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+		
+		return false;
 	}
 	
 	//readMove() - reads Move from socket
