@@ -39,6 +39,15 @@ public class Driver {
 		frame.setSize(frame.getWidth() + 1000, frame.getHeight() + 1000);
 		frame.setVisible(true);
 		
+		//while (!gameOver)
+		//	yourTurn()
+		//		unlockControls
+		//		while(!validInput)
+		//			try to get input (attemptMove)
+		//	theirTurn()
+		//		lockControls
+		//	redraw()
+		
 		Move mv = new Move();
 	}
 
