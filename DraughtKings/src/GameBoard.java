@@ -251,7 +251,6 @@ public class GameBoard extends JPanel
 			redPieces.remove(from);
 		}
 		checkCapture(piece, from);
-		this.isMyTurn = false;
 		lastMove.setTiles(tiles);
 		this.setMoved(true);
 		

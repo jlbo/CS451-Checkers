@@ -29,10 +29,12 @@ public class GameManager
 				if (board.isMoved()) {
 					nm.sendMove(board.getLastMove());
 					board.setMoved(false);
+					board.setMyTurn(false);
 				}
 			} else {
 				Move newMove = nm.readMove();
 				board.updateBoard(newMove);
+				board.setMyTurn(true);
 			}
 		}
 	}
