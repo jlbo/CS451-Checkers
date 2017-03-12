@@ -25,7 +25,9 @@ public class GameBoard extends JPanel
 	private static final Color BLACK = Color.GRAY;
 	public static final Color BLACK_PIECE = Color.BLACK;
 	
-	public GameBoard(int boardWidth, int tileWidth)
+	private boolean isMyTurn;
+	
+	public GameBoard(int boardWidth, int tileWidth, boolean isMyTurn)
 	{
 		//Call super constructor
 		super();
@@ -37,6 +39,7 @@ public class GameBoard extends JPanel
 		this.addMouseListener(actionListener);
 		setHighlighted(null);
 //		this.setLayout(new GridLayout(boardWidth, boardWidth));
+		this.isMyTurn = isMyTurn;
 	}
 	
 	public int getBoardWidth()
@@ -294,5 +297,22 @@ public class GameBoard extends JPanel
 			setHighlighted(null);
 		}
 		return true;
+	}
+	
+	public boolean gameOver()
+	{
+		if (blackPieces.isEmpty() || redPieces.isEmpty())
+		{
+			return true;
+		}
+		else return false;
+	}
+
+	public boolean isMyTurn() {
+		return isMyTurn;
+	}
+
+	public void setMyTurn(boolean isMyTurn) {
+		this.isMyTurn = isMyTurn;
 	}
 }
