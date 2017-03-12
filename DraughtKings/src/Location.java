@@ -1,7 +1,8 @@
 import java.awt.Point;
+import java.io.Serializable;
 
 
-public class Location {
+public class Location implements Serializable {
 
 	private int _x;
 	private int _y;

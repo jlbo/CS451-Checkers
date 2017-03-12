@@ -192,11 +192,43 @@ public class GameBoard extends JPanel
 	public void updateBoard(Move newMove)
 	{
 		this.tiles = newMove.getTiles();
-		for (int i = 0; i < this.getBoardWidth(); i++) {
-			for (int j = 0; j < this.getBoardWidth(); j++) {
-				this.redrawTile(new Location(i,j));
+//		for (int i = 0; i < tiles.length; i++) {
+//			for (int j = 0; j < tiles.length; j++) {
+//				Location loc = new Location(i,j);
+//				//use data in 'newMove
+//				this.redrawTile(loc);
+//			}
+//		}
+		Location captPos = newMove.getEliminated();
+		if (captPos != null)
+		{
+			if (blackPieces.containsKey(captPos))
+			{
+				blackPieces.remove(captPos);
 			}
+			else if (redPieces.containsKey(captPos))
+			{
+				redPieces.remove(captPos);
+			}
+			redrawTile(captPos);
 		}
+		updatePiece(newMove.getTo(), newMove.getFrom(), getTile(newMove.getTo()));
+	}
+	
+	private void updatePiece(Location to, Location from, Tile tile)
+	{
+		if (tile.getColor() == BLACK_PIECE)
+		{
+			GamePiece piece = blackPieces.get(from);
+			blackPieces.put(to, piece);
+		}
+		else if (tile.getColor() == RED_PIECE)
+		{
+			GamePiece piece = redPieces.get(from);
+			redPieces.put(to, piece);
+		}
+		redrawTile(to);
+		redrawTile(from);
 	}
 	
 	public Location getHighlighted() 
@@ -250,15 +282,20 @@ public class GameBoard extends JPanel
 			redPieces.put(piece.getLocation(), piece);
 			redPieces.remove(from);
 		}
-		checkCapture(piece, from);
+		Location capturedPos = checkCapture(piece, from);
 		lastMove.setTiles(tiles);
+		lastMove.setEliminated(capturedPos);
+		lastMove.setFrom(from);
+		lastMove.setTo(piece.getLocation());
+//		lastMove.setMovedPiece(piece);
 		this.setMoved(true);
 		
 	}
 	
-	private void checkCapture(GamePiece piece, Location from)
+	private Location checkCapture(GamePiece piece, Location from)
 	{
 		Location newPos = piece.getLocation();
+		GamePiece captured = null;
 		//did it move TWO squares forward/backward?
 		//must have captured
 		boolean capture = Math.abs(newPos.getY() - from.getY()) > 1;
@@ -271,15 +308,16 @@ public class GameBoard extends JPanel
 			System.out.println(enemyPos);
 			if (piece.getTile() == Tile.BLACK)
 			{
-				redPieces.remove(enemyPos);
+				captured = redPieces.remove(enemyPos);
 			}
 			else if (piece.getTile() == Tile.RED)
 			{
-				blackPieces.remove(enemyPos);
+				captured = blackPieces.remove(enemyPos);
 			}
 			setTile(enemyPos, Tile.EMPTY);
 			redrawTile(enemyPos);
 		}
+		return captured != null ? captured.getLocation() : null;
 	}
 	
 	public boolean selectPiece(Location clickPos)
