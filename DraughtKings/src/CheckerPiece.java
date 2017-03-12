@@ -50,28 +50,6 @@ public class CheckerPiece extends GamePiece {
 			return true;
 		}
 		
-		if(getColor() == GameBoard.BLACK_PIECE)
-		{
-			//if color is BLACK, then moving in direction of INCREASE Y
-			if(newPos.getY() == oldPos.getY() + 1)
-			{
-				if(newPos.getX() == oldPos.getX() + 1 && newPos.getX() == oldPos.getX() - 1)
-				{
-					return true;
-				}
-			}
-		} 
-		else if(getColor() == GameBoard.RED_PIECE) 
-		{
-			//if color is RED, then moving in direction of DECREASE Y
-			if(newPos.getY() == oldPos.getY() - 1)
-			{
-				if(newPos.getX() == oldPos.getX() + 1 && newPos.getX() == oldPos.getX() - 1)
-				{
-					return true;
-				}
-			}
-		}
 		return false;
 	}
 	
