@@ -200,15 +200,11 @@ public class GameBoard extends JPanel
 	
 	public void updateBoard(Move newMove)
 	{
+		//Get underlying tile map
 		this.tiles = newMove.getTiles();
-//		for (int i = 0; i < tiles.length; i++) {
-//			for (int j = 0; j < tiles.length; j++) {
-//				Location loc = new Location(i,j);
-//				//use data in 'newMove
-//				this.redrawTile(loc);
-//			}
-//		}
-		/*Location captPos = newMove.getEliminated();
+		
+		//try to remove any piece that got captured
+		Location captPos = newMove.getEliminated();
 		if (captPos != null)
 		{
 			if (blackPieces.containsKey(captPos))
@@ -220,28 +216,25 @@ public class GameBoard extends JPanel
 				redPieces.remove(captPos);
 			}
 			redrawTile(captPos);
-		}*/
-
-		System.out.println("Tile at + " + newMove.getTo() + " is " + getTile(newMove.getTo()));
+		}
+		
+		//Update moved piece/tiles it touched
 		updatePiece(newMove.getTo(), newMove.getFrom(), getTile(newMove.getTo()));
 	}
 	
 	private void updatePiece(Location to, Location from, Tile tile)
 	{
-        System.out.println(tile.getColor());
 		if (tile.getColor() == BLACK_PIECE)
 		{
 			GamePiece piece = blackPieces.remove(from);
             piece.setLocation(to);
 			blackPieces.put(to, piece);
-			System.out.println("Updated hashmap at " + to + " with " + blackPieces.get(to));
 		}
 		else if (tile.getColor() == RED_PIECE)
 		{
 			GamePiece piece = redPieces.remove(from);
             piece.setLocation(to);
 			redPieces.put(to, piece);
-			System.out.println("Updated hashmap at " + to + " with " + redPieces.get(to));
 		}
 		redrawTile(to);
 		redrawTile(from);
@@ -255,8 +248,6 @@ public class GameBoard extends JPanel
         for (Location l : redPieces.keySet()) {
             System.out.println("("+l.getX()+","+l.getY()+") :: " + redPieces.get(l).toString());
         }
-
-
 	}
 	
 	public Location getHighlighted() 
