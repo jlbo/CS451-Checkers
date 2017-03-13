@@ -1,5 +1,7 @@
 CS-451 Group Members: Lukasz Woch, Mark Cohen, Joel Borneman, Nick Brady
+
 Draught Kings README
+
 Last Updated: 3/12/17
 
 
@@ -8,6 +10,7 @@ The game Draught Kings will be contained within a JAR file, which the users will
 This file will then be placed into a folder of the user's choosing and can be run through the commandline by passing it specific arguements. The host game must be started before the client can connect.
 
 The command "java -jar ./DraughtsKingsCR01.jar" will run the game as a host.
+
 The command "java -jar ./DraughtsKingsCR01.jar <IP>" will run the game as a client with connects to the <IP> of the host.
 
 Upon starting the game the game will be initialized as either a host or a client.
