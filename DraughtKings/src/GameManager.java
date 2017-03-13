@@ -13,7 +13,8 @@ public class GameManager
 	}
 	public void start()
 	{
-		JFrame frame = new JFrame("Test Window");
+		String winTitle = nm.isHost ? "Team Red" : "Team Black";
+		JFrame frame = new JFrame(winTitle);
 		GameBoard board = new GameBoard(8, 75, nm.isHost);
 		//Left hand display
 		frame.getContentPane().add(new JPanel(), BorderLayout.WEST);
@@ -54,6 +55,7 @@ public class GameManager
 					System.out.println("newMove did not get recieved succefully");
 			}
 		}
+		frame.dispose();
 	}
 	
 }
