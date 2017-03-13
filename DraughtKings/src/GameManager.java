@@ -33,26 +33,18 @@ public class GameManager
 					//failed	
 				}
 				if (board.isMoved()) {
-					System.out.println("Did it get to send?");
 					
 					if (nm.sendMove(board.getLastMove())) {
-					
-						System.out.println("It sent");
 						board.setMoved(false);
 						board.setMyTurn(false);
 					}
-					else 
-						System.out.println("sendMove returned false");
 				}
 			} else {
 				Move newMove = nm.readMove();
 				if (newMove != null) {
 					board.updateBoard(newMove);
 					board.setMyTurn(true);
-					System.out.println("newMove successfully recieved");
 				}
-				else
-					System.out.println("newMove did not get recieved succefully");
 			}
 		}
 		frame.dispose();

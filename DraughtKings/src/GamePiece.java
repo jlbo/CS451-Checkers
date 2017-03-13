@@ -21,7 +21,6 @@ public abstract class GamePiece {
 	public void move(Location newPos)
 	{
 		setLocation(newPos);
-        System.out.println("Set: " + this + "To: " + this.getLocation());
 	}
 	
 	public abstract boolean checkMove(Location newPos);
