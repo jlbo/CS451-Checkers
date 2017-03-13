@@ -1,6 +1,7 @@
 # CS451-Checkers
 A Sophisticated Checkers Game
 CS-451 Group Members: Lukasz Woch, Mark Cohen, Joel Borneman, Nick Brady
+
 Draught Kings README
 Last Updated: 3/12/17
 
